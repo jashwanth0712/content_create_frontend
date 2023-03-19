@@ -82,7 +82,7 @@ const domains = [
 function DomainCard({ name, image,description }) {
   return (
     <Link
-  to={`/content-select/${name.toLowerCase()}`}
+  to={`/form/${name}`}
   className="bg-white shadow-lg rounded-lg overflow-hidden mx-2 my-4 sm:mx-4 sm:my-8 w-48 sm:w-40 flex flex-col items-center justify-center hover:shadow-xl transition duration-300 ease-in-out transform hover:-translate-y-2"
   >
   <img className="w-full h-24 object-cover" src={image} alt={name} />
@@ -100,8 +100,8 @@ function SelectIndustry() {
   return (
     <div>
       
-<h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-black">Select domain of the business</h1>
-<p class="mb-6 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400">
+<h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-black">Select domain of the business</h1>
+<p className="mb-6 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400">
  select the most suitable domain among the given options , if you feel that your domain is very unique from the given option use custom domain</p>
 <Popup/>
 <div className="flex flex-wrap justify-center">

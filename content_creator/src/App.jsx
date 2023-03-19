@@ -13,7 +13,7 @@ function App() {
           <Router>
             <Routes>
               <Route path='/' element={<HomePage />}></Route>
-              <Route path='/form' element={<Forms />}></Route>
+              <Route path='/form/:domain' element={<Forms />}></Route>
               <Route path='/content-select' element={<SelectIndustry/>} ></Route>
             </Routes>
          </Router>

@@ -23,7 +23,7 @@ const navigateTo = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
     // Navigate to content-select page with message as parameter
-    navigateTo('/form',{message})
+    navigateTo(`/form/${message}`)
     setMessage('');
     setIsOpen(false);
   };
