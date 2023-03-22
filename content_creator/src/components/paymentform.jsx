@@ -1,0 +1,37 @@
+import React, { useState } from "react";
+import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
+
+const PaymentForm = () => {
+  const [loading, setLoading] = useState(false);
+  const stripe = useStripe();
+  const elements = useElements();
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setLoading(true);
+
+    const { error, paymentMethod } = await stripe.createPaymentMethod({
+      type: "card",
+      card: elements.getElement(CardElement),
+    });
+
+    if (!error) {
+      // Call your backend API to complete the payment process
+      // You will need to pass the paymentMethod.id to your backend
+      console.log(paymentMethod);
+    }
+
+    setLoading(false);
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <CardElement />
+      <button type="submit" disabled={loading}>
+        {loading ? "Processing..." : "Pay"}
+      </button>
+    </form>
+  );
+};
+
+export default PaymentForm;

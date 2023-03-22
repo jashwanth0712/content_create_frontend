@@ -1,8 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
-
+import PaymentForm from './paymentform';
 export default function HomePage() {
-  const [value, setValue] = useState(50);
 
     const navigateTo = useNavigate();
 
@@ -15,6 +14,7 @@ export default function HomePage() {
           <button    onClick={handleClick}  className="px-8 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-700">
             Get started
           </button>
+          <PaymentForm/>
           <div className="flex flex-col items-center">
       <img
         src="https://via.placeholder.com/64"
