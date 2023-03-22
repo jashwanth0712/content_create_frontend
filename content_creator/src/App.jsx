@@ -1,25 +1,28 @@
-import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { useState } from 'react';
 import HomePage from './components/homepage';
 import SelectIndustry from './components/selectindustry';
 import Forms from './components/form';
 import './App.css'
-
+import Navbar from './components/navbar';
+import { GoogleLogin } from '@react-oauth/google';
 
 function App() {
+  
   return (
-    
+
     <div>
-          
-          <Router>
-            <Routes>
-              <Route path='/' element={<HomePage />}></Route>
-              <Route path='/form/:domain' element={<Forms />}></Route>
-              <Route path='/content-select' element={<SelectIndustry/>} ></Route>
-            </Routes>
-         </Router>
+    <Navbar/>
+      <Router>
+        <Routes>
+          <Route path='/' element={<HomePage />}></Route>
+          <Route path='/form/:domain' element={<Forms />}></Route>
+          <Route path='/content-select' element={<SelectIndustry />} ></Route>
+        </Routes>
+      </Router>
 
     </div>
-   
+
   );
 }
 
