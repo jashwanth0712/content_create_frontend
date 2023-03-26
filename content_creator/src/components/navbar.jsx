@@ -1,41 +1,26 @@
-import { useState } from 'react';
-import { GoogleLogin } from '@react-oauth/google';
+import Decore from "../assets/images/Decore.png"
 function Navbar() {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-  
-    const handleLoginSuccess = (credentialResponse) => {
-      console.log(credentialResponse);
-      setIsLoggedIn(true);
-    };
-  
-    const handleLoginError = () => {
-      console.log('Login Failed');
-    };
-  
-    const handleLogout = () => {
-      setIsLoggedIn(false);
-    };
-  
-    return (
-        <header className="flex items-center justify-between px-4 py-3  bg-gray-100 rounded-lg">
-        <div className="text-gray-900 font-bold">Createe</div>
-        {isLoggedIn ? (
-          <button
-            onClick={handleLogout}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg"
-          >
-            Logout
-          </button>
-        ) : (
-          <GoogleLogin
-            onSuccess={handleLoginSuccess}
-            onError={handleLoginError}
-            buttonText="Login with Google"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg"
-          />
-        )}
-      </header>
-      
-    );
-  }
-  export default Navbar;
+
+  return (
+<div class="flex items-center justify-between z-50">
+    <div class="z-50">
+        <a href="#" class="font-bold z-50">Create</a>
+    </div>
+    <div class="hidden sm:flex items-center space-x-12 z-50">
+        <a href="#" class="font-semibold">View Plans</a>
+        <a href="#" class="font-semibold">linkedin</a>
+        <a href="#" class="font-semibold">Twitter</a>
+        <a href="#" class="border px-4 py-1.5 rounded-md border-black font-semibold">Contact us</a>
+    </div>
+    <div class="sm:hidden z-50">
+        <a href="#" class="border px-4 py-1.5 rounded-md border-black font-semibold">Contact us</a>
+    </div>
+    <img src={Decore} class="absolute right-0 top-0 w-30 h-auto z--100" alt=""/>
+
+</div>
+
+
+
+  );
+}
+export default Navbar;

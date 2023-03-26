@@ -1,28 +1,80 @@
 import { useNavigate } from 'react-router-dom';
+import { Player } from '@lottiefiles/react-lottie-player';
 import React, { useState } from 'react';
+import { GoogleLogin } from '@react-oauth/google';
 import PaymentForm from './paymentform';
 export default function HomePage() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-    const navigateTo = useNavigate();
+  const handleLoginSuccess = (credentialResponse) => {
+    navigateTo('/content-select')
+    console.log(credentialResponse);
+    setIsLoggedIn(true);
+  };
+
+  const handleLoginError = () => {
+    console.log('Login Failed');
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+  };
+
+  const navigateTo = useNavigate();
 
   function handleClick() {
     navigateTo('/content-select')
   }
-    return (
-        <div className="bg-gray-100 h-screen flex flex-col justify-center items-center">
-          <h1 className="text-4xl font-bold mb-8">Welcome to The Landing Page</h1>
-          <button    onClick={handleClick}  className="px-8 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-700">
-            Get started
-          </button>
-          <PaymentForm/>
-          <div className="flex flex-col items-center">
-      <img
-        src="https://via.placeholder.com/64"
-        alt="slider thumb"
-        className="h-8 w-8 absolute top-1/2 transform -translate-y-1/2 -left-4"
-      />
-      
-    </div>
+  return (
+    <div className="h-screen flex flex-row">
+      <div className="flex-1 flex flex-col justify-center items-center">
+        {/* <div className=" justify-end w-20">
+          <Player
+            src='https://assets1.lottiefiles.com/private_files/lf30_qwwsom67.json'
+            className="player"
+            loop
+            autoplay
+          />
+        </div> */}
+        <h1 className="text-6xl font-bold mb-8 w-full z-50">
+          Welcome to <span class="text-yellow-500 z-50">Createe</span>
+        </h1>
+        <h2 class="text-xl font-semibold mb-4 z-50">Now creating social media content is easy</h2>
+        <div className="flex flex-col items-center">
+          <img
+            src="https://via.placeholder.com/64"
+            alt="slider thumb"
+            className="h-8 w-8 absolute top-1/2 transform -translate-y-1/2 -left-4"
+          />
+          {isLoggedIn ? (
+            <button
+              onClick={handleLogout}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg"
+            >
+              Logout
+            </button>
+          ) :
+            (
+              <GoogleLogin
+                onSuccess={handleLoginSuccess}
+                onError={handleLoginError}
+                buttonText="Login"
+                style={{ border: 'none' }}
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50"
+              />
+
+            )}
         </div>
-      );
+      </div>
+      <div className="hidden md:flex md:flex-1 md:justify-end md:w-50 md:h-50">
+        <Player
+          src='https://assets1.lottiefiles.com/packages/lf20_ik4jyixs.json'
+          className="player"
+          loop
+          autoplay
+        />
+      </div>
+    </div>
+
+  );
 }
