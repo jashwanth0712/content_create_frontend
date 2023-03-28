@@ -3,6 +3,8 @@ import { Player } from '@lottiefiles/react-lottie-player';
 import React, { useState } from 'react';
 import { GoogleLogin } from '@react-oauth/google';
 import PaymentForm from './paymentform';
+import Decore from "../assets/images/Decore.png"
+
 export default function HomePage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -27,6 +29,8 @@ export default function HomePage() {
   }
   return (
     <div className="h-screen flex flex-row">
+    <img src={Decore} class="absolute right-0 top-0 w-30 h-auto z--100" alt=""/>
+
       <div className="flex-1 flex flex-col justify-center items-center">
         {/* <div className=" justify-end w-20">
           <Player

@@ -7,6 +7,7 @@ import './App.css'
 import Navbar from './components/navbar';
 import { GoogleLogin } from '@react-oauth/google';
 import PaymentForm from './components/paymentform';
+import Content_manager from './components/cms';
 
 function App() {
   
@@ -17,6 +18,7 @@ function App() {
       <Router>
         <Routes>
           <Route path='/' element={<HomePage />}></Route>
+          <Route path='/cms' element={<Content_manager />}></Route>
           <Route path='/payment' element={<PaymentForm />}></Route>
           <Route path='/form/:domain' element={<Forms />}></Route>
           <Route path='/content-select' element={<SelectIndustry />} ></Route>
