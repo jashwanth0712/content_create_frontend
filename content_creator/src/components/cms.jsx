@@ -144,6 +144,7 @@ function Content_manager() {
                                 </div>
                             ))}
                     </div>
+                    
 
                 </div>
             ))}
