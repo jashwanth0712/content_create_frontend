@@ -78,7 +78,7 @@ export default function HomePage() {
           autoplay
         />
       </div>
+      
     </div>
-
   );
 }
