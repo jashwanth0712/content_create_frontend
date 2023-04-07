@@ -11,11 +11,11 @@ import Content_manager from './components/cms';
 import Subscriptionplans from './components/subscription_plans';
 
 function App() {
-  
+
   return (
 
     <div>
-    <Navbar/>
+      <Navbar />
       <Router>
         <Routes>
           <Route path='/' element={<HomePage />}></Route>

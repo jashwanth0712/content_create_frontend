@@ -1,17 +1,33 @@
 import { useNavigate } from 'react-router-dom';
 import { Player } from '@lottiefiles/react-lottie-player';
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import { GoogleLogin } from '@react-oauth/google';
 import PaymentForm from './paymentform';
 import Decore from "../assets/images/Decore.png"
 
 export default function HomePage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
+  const [credentials, setCredentials] = useState(null);
+  useEffect(() => {
+    console.log('isLoggedIn has changed:', isLoggedIn);
+    if(isLoggedIn===true){
+      navigateTo('/content-select', { state: { credentials, isLoggedIn }});
+    }
+  }, [isLoggedIn]);
+  
+  useEffect(() => {
+    console.log('credentials have changed:', credentials);
+    if(credentials!== null){
+      console.log("id ",credentials.credential)
+    }
+  }, [credentials]);
   const handleLoginSuccess = (credentialResponse) => {
-    navigateTo('/content-select')
-    console.log(credentialResponse);
+    console.log(isLoggedIn);
     setIsLoggedIn(true);
+    console.log(isLoggedIn);
+    // navigateTo('/content-select')
+    setCredentials(credentialResponse);
+    console.log(credentials)
   };
 
   const handleLoginError = () => {
@@ -19,7 +35,12 @@ export default function HomePage() {
   };
 
   const handleLogout = () => {
+    console.log(isLoggedIn);
+
     setIsLoggedIn(false);
+    console.log(isLoggedIn);
+
+    setCredentials(null);
   };
 
   const navigateTo = useNavigate();
@@ -29,7 +50,7 @@ export default function HomePage() {
   }
   return (
     <div className="h-screen flex flex-row">
-    <img src={Decore} class="absolute right-0 top-0 w-30 h-auto z--100" alt=""/>
+      <img src={Decore} class="absolute right-0 top-0 w-30 h-auto z--100" alt="" />
 
       <div className="flex-1 flex flex-col justify-center items-center">
         {/* <div className=" justify-end w-20">
@@ -63,8 +84,14 @@ export default function HomePage() {
                 onSuccess={handleLoginSuccess}
                 onError={handleLoginError}
                 buttonText="Login"
-                style={{ border: 'none' }}
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50"
+                style={{
+                  background: '#3b5998',
+                  color: 'white',
+                  fontSize: '16px',
+                  borderRadius: '10px',
+                  border: 'none',
+                  padding: '10px 20px',
+                }}
               />
 
             )}
@@ -78,7 +105,7 @@ export default function HomePage() {
           autoplay
         />
       </div>
-      
+
     </div>
   );
 }

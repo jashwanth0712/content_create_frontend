@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from "react-router-dom";
+import { Link,useLocation } from "react-router-dom";
 import Popup from './pop';
 const domains = [
   {
@@ -80,9 +80,13 @@ const domains = [
 ]
 
 function DomainCard({ name, image,description }) {
+  const location = useLocation();
+  const credentials = location.state.credentials;
+  const isLoggedIn = location.state.isLoggedIn;
   return (
     <Link
     to={`/form/${name}`}
+    state={{credentials,isLoggedIn,name}}
     className="bg-white shadow-lg rounded-lg  mx-2 my-4 sm:mx-4 sm:my-8 w-25 sm:w-48 flex flex-col items-center justify-center hover:shadow-xl transition duration-300 ease-in-out transform hover:-translate-y-2"
   >
     <button className="w-full h-16 sm:h-24 px-2 flex rounded-full items-center justify-center text-gray-800 hover:text-gray-600 transition duration-300 ease-in-out transform hover:-translate-y-2 focus:outline-none text-lg font-bold bg-white shadow-lg rounded-lg border-2 border-yellow-500">
@@ -100,6 +104,10 @@ function DomainCard({ name, image,description }) {
 
 
 function SelectIndustry() {
+  const location = useLocation();
+  const credentials = location.state.credentials;
+  console.log("select industry credentials is ",credentials);
+  console.log("select industry loggedin is ",location.state.isLoggedIn);
   return (
     <div>
       
