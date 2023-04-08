@@ -10,6 +10,7 @@ import PaymentForm from './components/paymentform';
 import Content_manager from './components/cms';
 import Paragraph from './components/paragraph';
 import Subscriptionplans from './components/subscription_plans';
+import CommingSoon from './components/commingsoon';
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
         <Routes>
           <Route path='/' element={<HomePage />}></Route>
           <Route path='/cms' element={<Content_manager />}></Route>
+          <Route path='/under-construction' element={<CommingSoon />}></Route>
           <Route path='/payment' element={<PaymentForm />}></Route>
           <Route path='/form/:domain' element={<Forms />}></Route>
           <Route path='/plans' element={<Subscriptionplans />}></Route>

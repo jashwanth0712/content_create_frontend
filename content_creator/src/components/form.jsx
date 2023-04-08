@@ -27,12 +27,12 @@ const Forms = () => {
     setLoading(true);
     const prompt = `create a ${postType} social media content for ${targetAudience} with a seriousness tone of ${tone} percentage : topic of the content is ${paragraph}`;
     try {
-      // const response = await fetch(`https://create-content-1.vercel.app/generate-text?text=${prompt}`);
-      const response = await fetch(`https://create-content-1.vercel.app/`);
-      const data = await response.json();
+      const response = await fetch(`https://create-content-1.vercel.app/generate-text?text=${prompt}`);
+      // const response = await fetch(`https://create-content-1.vercel.app/`);
+      const data = await response.text();
       setResult(data);
       setLoading(false);
-      navigateTo('/result', { state: { prompt }});
+      navigateTo('/result', { state: { data }});
 
     } catch (error) {
       console.error(error);

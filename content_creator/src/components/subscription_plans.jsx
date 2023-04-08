@@ -8,16 +8,27 @@ function Subscriptionplans() {
                     <p class="mb-5 font-light text-gray-500 sm:text-xl ">Let's simplify the content creation process ,our tool helps you to dedicate your time into content rather than creation  </p>
                 </div>
                 <div class="space-y-8 lg:grid lg:grid-cols-3 sm:gap-6 xl:gap-10 lg:space-y-0">
-
+                <SubscriptionCard
+                        title="Free Trail"
+                        description="Free trail to try the platform with limited usage"
+                        price="FREE"
+                        features={[
+                            { name: "simultaneous users", value: "1 user" },
+                            { name: "content per day", value: "10 results / day" },
+                        ]}
+                        buttonText="Try now"
+                        jump_link="/"
+                    />
                     <SubscriptionCard
                         title="Starter"
                         description="Best option for personal content creation"
                         price="$10"
                         features={[
                             { name: "simultaneous users", value: "1 user" },
-                            { name: "content per day", value: "10 results / day" },
+                            { name: "content per day", value: "100 results / day" },
                         ]}
                         buttonText="Subscribe"
+                        jump_link="/under-construction"
                     />
                     <SubscriptionCard
                         title="Professional"
@@ -25,20 +36,13 @@ function Subscriptionplans() {
                         price="$99"
                         features={[
                             { name: "simultaneous users", value: "3 user" },
-                            { name: "content per day", value: "200 results / day" },
-                        ]}
-                        buttonText="Subscribe"
-                    />
-                    <SubscriptionCard
-                        title="Company"
-                        description="Best for large scale and unlimited uses of the tool"
-                        price="$199"
-                        features={[
-                            { name: "simultaneous users", value: "no limit " },
                             { name: "content per day", value: "10000 results / day" },
                         ]}
                         buttonText="Subscribe"
+                        jump_link="/under-construction"
+
                     />
+                    
                     
                 </div>
             </div>
@@ -47,7 +51,7 @@ function Subscriptionplans() {
 }
 
 
-function SubscriptionCard({ title, description, price, features, buttonText }) {
+function SubscriptionCard({ title, description, price, features, buttonText,jump_link }) {
     return (
         <div className="flex flex-col p-6 mx-auto max-w-lg text-center text-gray-900 bg-white rounded-lg border border-gray-100 shadow  xl:p-8  ">
             <h3 className="mb-4 text-2xl font-semibold">{title}</h3>
@@ -80,7 +84,7 @@ function SubscriptionCard({ title, description, price, features, buttonText }) {
                 ))}
             </ul>
             <a
-                href="#"
+                href={jump_link}
                 className="text-white bg-blue-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center   "
             >
                 {buttonText}

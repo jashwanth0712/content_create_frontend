@@ -126,8 +126,8 @@ function Content_manager() {
                     <button
                         key={category}
                         className={`mr-4 px-2 py-1 rounded-lg ${activeCategory === category
-                                ? "bg-gray-500 text-white"
-                                : "bg-white text-gray-800"
+                            ? "bg-gray-500 text-white"
+                            : "bg-white text-gray-800"
                             }`}
                         onClick={() => setActiveCategory(category)}
                     >
@@ -151,13 +151,13 @@ function Content_manager() {
                 </div>
             ) : (
                 <div class="flex justify-center items-center hidden md:flex md:flex-2  md:w-2/3 ">
-    <Player
-        src='https://assets3.lottiefiles.com/packages/lf20_x62chJ.json'
-        class="w-1/2 h-1/2 mx-auto"
-        loop
-        autoplay
-    />
-</div>
+                    <Player
+                        src='https://assets3.lottiefiles.com/packages/lf20_x62chJ.json'
+                        class="w-1/2 h-1/2 mx-auto"
+                        loop
+                        autoplay
+                    />
+                </div>
 
 
             )}
