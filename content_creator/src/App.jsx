@@ -8,6 +8,7 @@ import Navbar from './components/navbar';
 import { GoogleLogin } from '@react-oauth/google';
 import PaymentForm from './components/paymentform';
 import Content_manager from './components/cms';
+import Paragraph from './components/paragraph';
 import Subscriptionplans from './components/subscription_plans';
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
           <Route path='/payment' element={<PaymentForm />}></Route>
           <Route path='/form/:domain' element={<Forms />}></Route>
           <Route path='/plans' element={<Subscriptionplans />}></Route>
+          <Route path='/result' element={<Paragraph />}></Route>
           <Route path='/content-select' element={<SelectIndustry />} ></Route>
         </Routes>
       </Router>

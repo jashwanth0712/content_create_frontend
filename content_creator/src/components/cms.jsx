@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { Player } from '@lottiefiles/react-lottie-player';
+
 function Content_manager() {
     const data = [
         {
@@ -123,7 +125,9 @@ function Content_manager() {
                 {categories.map((category) => (
                     <button
                         key={category}
-                        className={`mr-4 px-2 py-1 rounded-lg ${activeCategory === category ? 'bg-gray-500 text-white' : 'bg-white text-gray-800'
+                        className={`mr-4 px-2 py-1 rounded-lg ${activeCategory === category
+                                ? "bg-gray-500 text-white"
+                                : "bg-white text-gray-800"
                             }`}
                         onClick={() => setActiveCategory(category)}
                     >
@@ -131,9 +135,9 @@ function Content_manager() {
                     </button>
                 ))}
             </div>
-            {categories.map((category) => (
-                <div key={category} className={activeCategory === category ? 'block' : 'hidden'}>
-                    <h2 className="text-2xl font-bold mb-4">{category}</h2>
+            {activeCategory ? (
+                <div className="block">
+                    <h2 className="text-2xl font-bold mb-4">{activeCategory}</h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                         {data
                             .filter((item) => item.category === activeCategory)
@@ -144,11 +148,21 @@ function Content_manager() {
                                 </div>
                             ))}
                     </div>
-                    
-
                 </div>
-            ))}
+            ) : (
+                <div class="flex justify-center items-center hidden md:flex md:flex-2  md:w-2/3 ">
+    <Player
+        src='https://assets3.lottiefiles.com/packages/lf20_x62chJ.json'
+        class="w-1/2 h-1/2 mx-auto"
+        loop
+        autoplay
+    />
+</div>
+
+
+            )}
         </div>
     );
+
 }
 export default Content_manager;

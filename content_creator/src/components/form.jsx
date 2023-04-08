@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams} from 'react-router-dom';
+import { useParams,useNavigate} from 'react-router-dom';
 import { Player } from '@lottiefiles/react-lottie-player';
 
 
@@ -15,6 +15,7 @@ const Forms = () => {
   const [copied, setCopied] = useState(false);
   const code = `console.log("Hello, world!");`;
 
+  const navigateTo = useNavigate();
   const handleCopy = () => {
     navigator.clipboard.writeText(code);
     setCopied(true);
@@ -26,13 +27,17 @@ const Forms = () => {
     setLoading(true);
     const prompt = `create a ${postType} social media content for ${targetAudience} with a seriousness tone of ${tone} percentage : topic of the content is ${paragraph}`;
     try {
-      const response = await fetch(`https://create-content-1.vercel.app/generate-text?text=${prompt}`);
+      // const response = await fetch(`https://create-content-1.vercel.app/generate-text?text=${prompt}`);
+      const response = await fetch(`https://create-content-1.vercel.app/`);
       const data = await response.json();
       setResult(data);
       setLoading(false);
+      navigateTo('/result', { state: { prompt }});
+
     } catch (error) {
       console.error(error);
       setLoading(false);
+      navigateTo('/result', { state: { prompt }});
     }
   };
   return (
