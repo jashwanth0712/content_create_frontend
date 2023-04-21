@@ -21,14 +21,36 @@ export default function HomePage() {
       console.log("id ",credentials.credential)
     }
   }, [credentials]);
-  const handleLoginSuccess = (credentialResponse) => {
-    console.log(isLoggedIn);
+  const handleLoginSuccess = async (credentialResponse) => {
     setIsLoggedIn(true);
-    console.log(isLoggedIn);
-    // navigateTo('/content-select')
     setCredentials(credentialResponse);
-    console.log(credentials)
+  
+    try {
+      const response = await fetch(`http://localhost:3000/my-collection/${credentialResponse.credential}`);
+      if (response.ok) {
+        // User already exists, navigate to next page
+        navigateTo('/content-select', { state: { credentials: credentialResponse, isLoggedIn: true }});
+      } else {
+        // User doesn't exist, create a new record in the database
+        const createResponse = await fetch('http://localhost:3000/my-collection', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ id: credentialResponse.credential }),
+        });
+        if (createResponse.ok) {
+          // New user created successfully, navigate to next page
+          navigateTo('/content-select', { state: { credentials: credentialResponse, isLoggedIn: true }});
+        } else {
+          console.error('Failed to create new user:', createResponse.statusText);
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+    }
   };
+  
 
   const handleLoginError = () => {
     console.log('Login Failed');

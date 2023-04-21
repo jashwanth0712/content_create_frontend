@@ -11,7 +11,7 @@ import Content_manager from './components/cms';
 import Paragraph from './components/paragraph';
 import Subscriptionplans from './components/subscription_plans';
 import CommingSoon from './components/commingsoon';
-
+import AdminPage from './components/adminpage';
 function App() {
 
   return (
@@ -27,6 +27,7 @@ function App() {
           <Route path='/form/:domain' element={<Forms />}></Route>
           <Route path='/plans' element={<Subscriptionplans />}></Route>
           <Route path='/result' element={<Paragraph />}></Route>
+          <Route path='/admin' element={<AdminPage />}></Route>
           <Route path='/content-select' element={<SelectIndustry />} ></Route>
         </Routes>
       </Router>
