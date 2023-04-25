@@ -12,6 +12,8 @@ import Paragraph from './components/paragraph';
 import Subscriptionplans from './components/subscription_plans';
 import CommingSoon from './components/commingsoon';
 import AdminPage from './components/adminpage';
+import { Analytics } from '@vercel/analytics/react';
+
 function App() {
 
   return (
@@ -31,7 +33,7 @@ function App() {
           <Route path='/content-select' element={<SelectIndustry />} ></Route>
         </Routes>
       </Router>
-
+      <Analytics/>
     </div>
 
   );
