@@ -1,56 +1,77 @@
 import { useNavigate } from 'react-router-dom';
 import { Player } from '@lottiefiles/react-lottie-player';
-import React, { useState ,useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { GoogleLogin } from '@react-oauth/google';
 import PaymentForm from './paymentform';
-import Decore from "../assets/images/Decore.png"
+import Decore from "../assets/images/Decore.png";
 
 export default function HomePage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [credentials, setCredentials] = useState(null);
   useEffect(() => {
     console.log('isLoggedIn has changed:', isLoggedIn);
-    if(isLoggedIn===true){
-      navigateTo('/content-select', { state: { credentials, isLoggedIn }});
+    if (isLoggedIn === true) {
+      navigateTo('/content-select', { state: { credentials, isLoggedIn } });
     }
   }, [isLoggedIn]);
-  
+
   useEffect(() => {
     console.log('credentials have changed:', credentials);
-    if(credentials!== null){
-      console.log("id ",credentials.credential)
+    if (credentials !== null) {
+      console.log("id ", credentials.credential)
     }
   }, [credentials]);
   const handleLoginSuccess = async (credentialResponse) => {
     setIsLoggedIn(true);
     setCredentials(credentialResponse);
-  
     try {
-      const response = await fetch(`http://localhost:3000/my-collection/${credentialResponse.credential}`);
+      const response = await fetch('https://www.googleapis.com/oauth2/v2/userinfo?fields=id,email,name,picture', {
+        headers: {
+          Authorization: `Bearer ${credentialResponse.accessToken}`,
+        },
+      });
       if (response.ok) {
-        // User already exists, navigate to next page
-        navigateTo('/content-select', { state: { credentials: credentialResponse, isLoggedIn: true }});
+        const data = await response.json();
+        console.log('Logged in as:', data.email);
       } else {
-        // User doesn't exist, create a new record in the database
-        const createResponse = await fetch('http://localhost:3000/my-collection', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ id: credentialResponse.credential }),
-        });
-        if (createResponse.ok) {
-          // New user created successfully, navigate to next page
-          navigateTo('/content-select', { state: { credentials: credentialResponse, isLoggedIn: true }});
-        } else {
-          console.error('Failed to create new user:', createResponse.statusText);
-        }
+        console.error('Failed to fetch user data:', response.statusText);
       }
     } catch (error) {
       console.error('Error fetching user data:', error);
     }
   };
   
+
+  // const handleLoginSuccess = async (credentialResponse) => {
+  //   setIsLoggedIn(true);
+  //   setCredentials(credentialResponse);
+  //   console.log('Logged in as:', credentialResponse.profile.email);
+  //   // try {
+  //   //   const response = await fetch(`https://content-create-n6r1.onrender.com/my-collection/${credentials.credential}`);
+  //   //   if (response.ok) {
+  //   //     // User already exists, navigate to next page
+  //   //     navigateTo('/content-select', { state: { credentials: credentialResponse, isLoggedIn: true }});
+  //   //   } else {
+  //   //     // User doesn't exist, create a new record in the database
+  //   //     const createResponse = await fetch('https://content-create-n6r1.onrender.com/my-collection', {
+  //   //       method: 'POST',
+  //   //       headers: {
+  //   //         'Content-Type': 'application/json',
+  //   //       },
+  //   //       body: JSON.stringify({ id: credentialResponse.credential }),
+  //   //     });
+  //   //     if (createResponse.ok) {
+  //   //       // New user created successfully, navigate to next page
+  //   //       navigateTo('/content-select', { state: { credentials: credentialResponse, isLoggedIn: true }});
+  //   //     } else {
+  //   //       console.error('Failed to create new user:', createResponse.statusText);
+  //   //     }
+  //   //   }
+  //   // } catch (error) {
+  //   //   console.error('Error fetching user data:', error);
+  //   // }
+  // };
+
 
   const handleLoginError = () => {
     console.log('Login Failed');
@@ -114,7 +135,9 @@ export default function HomePage() {
                   border: 'none',
                   padding: '10px 20px',
                 }}
+                scope="email"
               />
+
 
             )}
         </div>
