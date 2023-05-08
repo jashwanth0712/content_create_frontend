@@ -1,76 +1,64 @@
 import { useNavigate } from 'react-router-dom';
 import { Player } from '@lottiefiles/react-lottie-player';
 import React, { useState, useEffect } from 'react';
-import { GoogleLogin } from '@react-oauth/google';
 import PaymentForm from './paymentform';
 import Decore from "../assets/images/Decore.png";
+import { GoogleLogin } from '@react-oauth/google';
+import jwt_decode from "jwt-decode";
 
 export default function HomePage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [credentials, setCredentials] = useState(null);
+  const [user, setUser] = useState(null);
   useEffect(() => {
     console.log('isLoggedIn has changed:', isLoggedIn);
     if (isLoggedIn === true) {
-      navigateTo('/content-select', { state: { credentials, isLoggedIn } });
+      navigateTo('/content-select', { state: { credentials, isLoggedIn ,user } });
     }
   }, [isLoggedIn]);
 
+  useEffect(() => {}, [credentials]);
   useEffect(() => {
-    console.log('credentials have changed:', credentials);
-    if (credentials !== null) {
-      console.log("id ", credentials.credential)
+    console.log('user have changed:', user);
+    if (user !== null) {
+      console.log("user is  ", user)
     }
-  }, [credentials]);
+  }, [user]);
+
+
   const handleLoginSuccess = async (credentialResponse) => {
     setIsLoggedIn(true);
     setCredentials(credentialResponse);
+    const user=jwt_decode(credentialResponse.credential)
+    console.log('Logged in as:', user.email);
     try {
-      const response = await fetch('https://www.googleapis.com/oauth2/v2/userinfo?fields=id,email,name,picture', {
-        headers: {
-          Authorization: `Bearer ${credentialResponse.accessToken}`,
-        },
-      });
-      if (response.ok) {
-        const data = await response.json();
-        console.log('Logged in as:', data.email);
+      const response = await fetch(`https://content-create-n6r1.onrender.com/my-collection/${user.email}`);
+      // const response = await fetch(`https://localhost:3000/my-collection/${user.email}`);
+      if (response.ok ) {
+        // User already exists, navigate to next page
+        navigateTo('/content-select', { state: { credentials: credentialResponse, isLoggedIn: true ,user : user} });
       } else {
-        console.error('Failed to fetch user data:', response.statusText);
+        console.log("user does not exist ")
+        // User doesn't exist, create a new record in the database
+        const createResponse = await fetch('https://content-create-n6r1.onrender.com/my-collection/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ id: user.email }),
+        });
+        console.log("create responce is : ",createResponse)
+        if (createResponse.ok) {
+          // New user created successfully, navigate to next page
+          navigateTo('/content-select', { state: { credentials: credentialResponse, isLoggedIn: true ,user :user} });
+        } else {
+          console.error('Failed to create new user:', createResponse.statusText);
+        }
       }
     } catch (error) {
       console.error('Error fetching user data:', error);
     }
   };
-  
-
-  // const handleLoginSuccess = async (credentialResponse) => {
-  //   setIsLoggedIn(true);
-  //   setCredentials(credentialResponse);
-  //   console.log('Logged in as:', credentialResponse.profile.email);
-  //   // try {
-  //   //   const response = await fetch(`https://content-create-n6r1.onrender.com/my-collection/${credentials.credential}`);
-  //   //   if (response.ok) {
-  //   //     // User already exists, navigate to next page
-  //   //     navigateTo('/content-select', { state: { credentials: credentialResponse, isLoggedIn: true }});
-  //   //   } else {
-  //   //     // User doesn't exist, create a new record in the database
-  //   //     const createResponse = await fetch('https://content-create-n6r1.onrender.com/my-collection', {
-  //   //       method: 'POST',
-  //   //       headers: {
-  //   //         'Content-Type': 'application/json',
-  //   //       },
-  //   //       body: JSON.stringify({ id: credentialResponse.credential }),
-  //   //     });
-  //   //     if (createResponse.ok) {
-  //   //       // New user created successfully, navigate to next page
-  //   //       navigateTo('/content-select', { state: { credentials: credentialResponse, isLoggedIn: true }});
-  //   //     } else {
-  //   //       console.error('Failed to create new user:', createResponse.statusText);
-  //   //     }
-  //   //   }
-  //   // } catch (error) {
-  //   //   console.error('Error fetching user data:', error);
-  //   // }
-  // };
 
 
   const handleLoginError = () => {
@@ -79,7 +67,7 @@ export default function HomePage() {
 
   const handleLogout = () => {
     console.log(isLoggedIn);
-
+    setUser(null)
     setIsLoggedIn(false);
     console.log(isLoggedIn);
 
