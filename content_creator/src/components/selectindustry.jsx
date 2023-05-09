@@ -83,10 +83,11 @@ function DomainCard({ name, image,description }) {
   const location = useLocation();
   const credentials = location.state.credentials;
   const isLoggedIn = location.state.isLoggedIn;
+  const user = location.state.user;
   return (
     <Link
     to={`/form/${name}`}
-    state={{credentials,isLoggedIn,name}}
+    state={{credentials,isLoggedIn,user,name}}
     className="bg-white shadow-lg rounded-lg  mx-2 my-4 sm:mx-4 sm:my-8 w-25 sm:w-48 flex flex-col items-center justify-center hover:shadow-xl transition duration-300 ease-in-out transform hover:-translate-y-2"
   >
     <button className="w-full h-16 sm:h-24 px-2 flex rounded-full items-center justify-center text-gray-800 hover:text-gray-600 transition duration-300 ease-in-out transform hover:-translate-y-2 focus:outline-none text-lg font-bold bg-white shadow-lg rounded-lg border-2 border-yellow-500">
@@ -106,8 +107,8 @@ function DomainCard({ name, image,description }) {
 function SelectIndustry() {
   const location = useLocation();
   const credentials = location.state.credentials;
-  console.log("select industry credentials is ",credentials);
-  console.log("select industry loggedin is ",location.state.isLoggedIn);
+  const user = location.state.user;
+  console.log(user.email," is in select industry page now");
   return (
     <div>
       

@@ -47,7 +47,6 @@ export default function HomePage() {
           },
           body: JSON.stringify({ id: user.email }),
         });
-        console.log("create responce is : ",createResponse)
         if (createResponse.ok) {
           // New user created successfully, navigate to next page
           navigateTo('/content-select', { state: { credentials: credentialResponse, isLoggedIn: true ,user :user} });

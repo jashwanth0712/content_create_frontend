@@ -1,4 +1,4 @@
-
+import { PayPalButtons,PayPalScriptProvider } from "@paypal/react-paypal-js";
 function Subscriptionplans() {
     return (
         <section class="bg-white ">
@@ -16,7 +16,7 @@ function Subscriptionplans() {
                             { name: "simultaneous users", value: "1 user" },
                             { name: "content per day", value: "10 results / day" },
                         ]}
-                        buttonText="Try now"
+                        payment_amount={0}
                         jump_link="/"
                     />
                     <SubscriptionCard
@@ -27,7 +27,7 @@ function Subscriptionplans() {
                             { name: "simultaneous users", value: "1 user" },
                             { name: "content per day", value: "100 results / day" },
                         ]}
-                        buttonText="Subscribe"
+                        payment_amount={10}
                         jump_link="/under-construction"
                     />
                     <SubscriptionCard
@@ -38,7 +38,7 @@ function Subscriptionplans() {
                             { name: "simultaneous users", value: "3 user" },
                             { name: "content per day", value: "10000 results / day" },
                         ]}
-                        buttonText="Subscribe"
+                        payment_amount={99}
                         jump_link="/under-construction"
 
                     />
@@ -51,7 +51,7 @@ function Subscriptionplans() {
 }
 
 
-function SubscriptionCard({ title, description, price, features, buttonText,jump_link }) {
+function SubscriptionCard({ title, description, price, features, payment_amount,jump_link }) {
     return (
         <div className="flex flex-col p-6 mx-auto max-w-lg text-center text-gray-900 bg-white rounded-lg border border-gray-100 shadow  xl:p-8  ">
             <h3 className="mb-4 text-2xl font-semibold">{title}</h3>
@@ -83,12 +83,35 @@ function SubscriptionCard({ title, description, price, features, buttonText,jump
                     </li>
                 ))}
             </ul>
+           
+            {(payment_amount!= 0)?
+            <PayPalScriptProvider options={{
+                "client-id":"Adfu7DOh8Fea0jeSvCa2hS1_CY-mL9iOleuXcS-V7nLcX5Rrv4LelrFAn7GtUDR1lXtCgM__AcUSFrHq"
+            }}>
+{/* username : sb-0lyob25950622@business.example.com
+password : &L3>y(u| */}
+                <PayPalButtons
+                createOrder={(data,actions)=>{
+                    return actions.order.create({
+                        purchase_units:
+                        [{
+                            amount:{
+                                value:payment_amount,
+                            }
+                        }
+                        ]
+                    })
+                }}
+                />
+            </PayPalScriptProvider>:
             <a
-                href={jump_link}
-                className="text-white bg-blue-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center   "
-            >
-                {buttonText}
-            </a>
+            href={jump_link}
+            className="text-white bg-blue-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center   "
+        >
+            {10} Remaining
+        </a>
+            }
+           
         </div>
     );
 }
