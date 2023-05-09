@@ -1,4 +1,7 @@
 import { PayPalButtons,PayPalScriptProvider } from "@paypal/react-paypal-js";
+import { useState, useEffect } from 'react';
+
+
 function Subscriptionplans() {
     return (
         <section class="bg-white ">
@@ -52,6 +55,22 @@ function Subscriptionplans() {
 
 
 function SubscriptionCard({ title, description, price, features, payment_amount,jump_link }) {
+    const [remaining, setRemaining] = useState(0);
+
+    useEffect(() => {
+        const fetchRemaining = async () => {
+          try {
+            const response = await fetch(`https://content-create-n6r1.onrender.com/my-collection/${localStorage.getItem('userEmail')}`);
+            const data = await response.json();
+            console.log("got ",data)
+            setRemaining(data.remaining); // Assuming the "remaining" value is present in the response
+          } catch (error) {
+            console.error('Error fetching remaining:', error);
+          }
+        };
+    
+        fetchRemaining();
+      }, []);
     return (
         <div className="flex flex-col p-6 mx-auto max-w-lg text-center text-gray-900 bg-white rounded-lg border border-gray-100 shadow  xl:p-8  ">
             <h3 className="mb-4 text-2xl font-semibold">{title}</h3>
@@ -115,7 +134,7 @@ password : &L3>y(u| */}
             href={jump_link}
             className="text-white bg-blue-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center   "
         >
-            {10} Remaining
+            {remaining} Remaining
         </a>
             }
            

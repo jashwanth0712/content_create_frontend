@@ -31,6 +31,7 @@ export default function HomePage() {
     setCredentials(credentialResponse);
     const user=jwt_decode(credentialResponse.credential)
     console.log('Logged in as:', user.email);
+    localStorage.setItem('userEmail', user.email);
     try {
       const response = await fetch(`https://content-create-n6r1.onrender.com/my-collection/${user.email}`);
       // const response = await fetch(`https://localhost:3000/my-collection/${user.email}`);

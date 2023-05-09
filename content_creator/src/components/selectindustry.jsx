@@ -107,8 +107,9 @@ function DomainCard({ name, image,description }) {
 function SelectIndustry() {
   const location = useLocation();
   const credentials = location.state.credentials;
-  const user = location.state.user;
-  console.log(user.email," is in select industry page now");
+  // const user = location.state.user;
+  const user = location.state.user ;
+  console.log(user," is in select industry page now");
   return (
     <div>
       
