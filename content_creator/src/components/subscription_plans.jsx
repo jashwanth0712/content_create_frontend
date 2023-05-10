@@ -122,7 +122,33 @@ password : &L3>y(u| */}
                     })
                 }}
                 onApprove={function (data, actions) {
-                    return actions.order.capture().then(function (details) {
+                    return actions.order.capture().then(async function async (details) {
+                       const emailId = localStorage.getItem('userEmail'); // Replace with the actual email ID
+                       const user_req = await fetch(`http://localhost:5000/my-collection/${emailId}`);
+                       const user_txt=await user_req.text()
+                       const user_data=JSON.parse(user_txt);
+                       const remaining_prompts=user_data.remaining
+                        const patchEndpoint = `http://localhost:5000/my-collection/${emailId}`;
+                        const patchData = {
+                            remaining:remaining_prompts+1000*payment_amount,
+                          };
+                    
+                          const patchResponse = await fetch(patchEndpoint, {
+                            method: 'PATCH',
+                            headers: {
+                              'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(patchData),
+                          });
+                    
+                          if (patchResponse.ok) {
+                            setResult(data);
+                            setLoading(false);
+                            navigateTo('/result', { state: { data } });
+                          } else {
+                            throw new Error('Failed to patch the generated text to the endpoint.');
+                          }
+                        
                         alert(
                             "Transaction completed by "+ details .payer.name.given_name
                         )
