@@ -33,15 +33,16 @@ export default function HomePage() {
     console.log('Logged in as:', user.email);
     localStorage.setItem('userEmail', user.email);
     try {
-      const response = await fetch(`https://content-create-n6r1.onrender.com/my-collection/${user.email}`);
+      const response = await fetch(`http://localhost:5000/my-collection/${user.email}`);
       // const response = await fetch(`https://localhost:3000/my-collection/${user.email}`);
       if (response.ok ) {
         // User already exists, navigate to next page
+        localStorage.setItem('User_data',response);
         navigateTo('/content-select', { state: { credentials: credentialResponse, isLoggedIn: true ,user : user} });
       } else {
         console.log("user does not exist ")
         // User doesn't exist, create a new record in the database
-        const createResponse = await fetch('https://content-create-n6r1.onrender.com/my-collection/', {
+        const createResponse = await fetch('http://localhost:5000/my-collection/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

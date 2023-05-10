@@ -24,7 +24,7 @@ const Forms = () => {
   useEffect(() => {
     
     // Fetch the admin emails from the endpoint
-    fetch('http://localhost:3000/admin')
+    fetch('https://content-create-admin.onrender.com/admin')
       .then(response => response.json())
       .then(data => {
         setPostTypeOptions(data.type_of_post);
@@ -42,56 +42,29 @@ const Forms = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const prompt = `create a small ${postType} social media content  for ${targetAudience} with a seriousness tone of ${tone} percentage : topic of the content is ${paragraph}`;
+    const prompt = `create a ${postType} social media content for ${targetAudience} with a seriousness tone of ${tone} percentage : topic of the content is ${paragraph}`;
 
     try {
-           // Patch the generated text to the endpoint
-           const emailId = localStorage.getItem('userEmail'); // Replace with the actual email ID
-           const user_req = await fetch(`http://localhost:5000/my-collection/${emailId}`);
-           const user_txt=await user_req.text()
-           const user_data=JSON.parse(user_txt);
-           const remaining_prompts=user_data.remaining
-           const prev_prompts=user_data.prompts;
-           console.log("prev prompt is ",prev_prompts)
-           console.log("data is ",user_data)
-           console.log("remaining is ",user_data.remaining)
-           console.log("remainingj is ",user_data['remaining'])
-           const patchEndpoint = `http://localhost:5000/my-collection/${emailId}`;
-       
-           
-           if(remaining_prompts<10){
-             navigateTo('/expired');
-             return
-           }
-
       // Fetch generated text
       const response = await fetch(`https://create-content-1.vercel.app/generate-text?text=${prompt}`);
       const data = await response.text();
-      console.log(data)
 
       // Fetch tags
-      const tagsPrompt = `${data}: give best tag that can be given for the above content separated by spaces`;
+      const tagsPrompt = `${data}: give best three tags for the above content separated by spaces`;
       const tagsResponse = await fetch(`https://create-content-1.vercel.app/generate-text?text=${tagsPrompt}`);
-      const tags_ = await tagsResponse.text();
-      const hashtagsList = tags_
-        .split(' ')
-        .map((tag) => tag.replace(/^#+|#+$/g, ''))
-        .filter((tag) => tag.trim().length > 0);
-      const lines = data.split("\n"); // split the string by newline character
-      const firstLine = lines[0]; // extract the first line
-      const remainingLines = lines.slice(1).join("\n");
- 
-      
-      console.log("patch endpoint is :",patchEndpoint)
+      const tags = await tagsResponse.text();
+
+      // Patch the generated text to the endpoint
+      const emailId = localStorage.getItem('userEmail'); // Replace with the actual email ID
+      const patchEndpoint = `https://content-create-n6r1.onrender.com/my-collection/${emailId}`;
+
       const patchData = {
-        remaining:remaining_prompts-1,
         prompts: [
-          ...prev_prompts,
           {
-            tags: hashtagsList,
-            heading: firstLine,
-            bodyText: remainingLines,
-            industry:  localStorage.getItem('selectedDomain'),
+            tags: [],
+            heading: '',
+            bodyText: data,
+            industry: '',
           },
         ],
       };

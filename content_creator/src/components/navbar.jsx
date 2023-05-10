@@ -13,7 +13,7 @@ function Navbar() {
     }
 
     // Fetch the admin emails from the endpoint
-    fetch('http://localhost:5000/admin')
+    fetch('http://localhost:3000/admin')
       .then(response => response.json())
       .then(data => {
         setAdminEmails(data.Admin_email);

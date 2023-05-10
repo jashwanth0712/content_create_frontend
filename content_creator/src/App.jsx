@@ -13,7 +13,7 @@ import Subscriptionplans from './components/subscription_plans';
 import CommingSoon from './components/commingsoon';
 import AdminPage from './components/adminpage';
 import { Analytics } from '@vercel/analytics/react';
-
+import PlanExpired from './components/expired';
 function App() {
 
   return (
@@ -30,6 +30,7 @@ function App() {
           <Route path='/plans' element={<Subscriptionplans />}></Route>
           <Route path='/result' element={<Paragraph />}></Route>
           <Route path='/admin' element={<AdminPage />}></Route>
+          <Route path='/expired' element={<PlanExpired />}></Route>
           <Route path='/content-select' element={<SelectIndustry />} ></Route>
         </Routes>
       </Router>

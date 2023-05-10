@@ -1,29 +1,33 @@
 import React from 'react';
-import { Link,useLocation } from "react-router-dom";
+import { Link, useLocation } from 'react-router-dom';
 import Popup from './pop';
-import { useState,useEffect } from 'react';
+import { useState, useEffect } from 'react';
+
 function DomainCard({ name }) {
   const location = useLocation();
   const credentials = location.state.credentials;
   const isLoggedIn = location.state.isLoggedIn;
   const user = location.state.user;
+
+  const handleDomainClick = () => {
+    localStorage.setItem('selectedDomain', name);
+  };
+
   return (
     <Link
-    to={`/form/${name}`}
-    state={{credentials,isLoggedIn,user,name}}
-    className="bg-white shadow-lg rounded-lg  mx-2 my-4 sm:mx-4 sm:my-8 w-25 sm:w-48 flex flex-col items-center justify-center hover:shadow-xl transition duration-300 ease-in-out transform hover:-translate-y-2"
-  >
-    <button className="w-full h-16 sm:h-24 px-2 flex rounded-full items-center justify-center text-gray-800 hover:text-gray-600 transition duration-300 ease-in-out transform hover:-translate-y-2 focus:outline-none text-lg font-bold bg-white shadow-lg rounded-lg border-2 border-yellow-500">
-  {name}
-</button>
-
-  </Link>
-  
-  
+      to={`/form/${name}`}
+      state={{ credentials, isLoggedIn, user, name }}
+      className="bg-white shadow-lg rounded-lg  mx-2 my-4 sm:mx-4 sm:my-8 w-25 sm:w-48 flex flex-col items-center justify-center hover:shadow-xl transition duration-300 ease-in-out transform hover:-translate-y-2"
+    >
+      <button
+        className="w-full h-16 sm:h-24 px-2 flex rounded-full items-center justify-center text-gray-800 hover:text-gray-600 transition duration-300 ease-in-out transform hover:-translate-y-2 focus:outline-none text-lg font-bold bg-white shadow-lg rounded-lg border-2 border-yellow-500"
+        onClick={handleDomainClick}
+      >
+        {name}
+      </button>
+    </Link>
   );
 }
-
-
 
 function SelectIndustry() {
   const location = useLocation();
@@ -34,10 +38,9 @@ function SelectIndustry() {
   useEffect(() => {
     const fetchDomains = async () => {
       try {
-        const response = await fetch('http://localhost:5000/admin');
+        const response = await fetch('http://localhost:3000/admin');
         const data = await response.json();
         const industries = data.Industries;
-        console.log(industries)
         setDomains(industries);
       } catch (error) {
         console.error(error);
@@ -61,7 +64,7 @@ function SelectIndustry() {
       <Popup />
       <div className="flex flex-wrap justify-center">
         {domains.map((domain) => (
-          <DomainCard name={domain}/>
+          <DomainCard key={domain} name={domain} />
         ))}
       </div>
     </div>

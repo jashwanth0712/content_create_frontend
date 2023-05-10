@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom';
 const Paragraph = () => {
     const location = useLocation();
     const Result = location.state && location.state.data;
+    console.log(Result)
     const str = Result;
     const lines = str.split("\n"); // split the string by newline character
     const firstLine = lines[0]; // extract the first line
