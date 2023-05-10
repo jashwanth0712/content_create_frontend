@@ -26,20 +26,49 @@ const Forms = () => {
     e.preventDefault();
     setLoading(true);
     const prompt = `create a ${postType} social media content for ${targetAudience} with a seriousness tone of ${tone} percentage : topic of the content is ${paragraph}`;
+  
     try {
       const response = await fetch(`https://create-content-1.vercel.app/generate-text?text=${prompt}`);
-      // const response = await fetch(`https://create-content-1.vercel.app/`);
       const data = await response.text();
-      setResult(data);
-      setLoading(false);
-      navigateTo('/result', { state: { data }});
-
+      const tags_prompt = data + ': give best three tags for the above content separated by spaces'      
+      const tags =  await fetch(`https://create-content-1.vercel.app/generate-text?text=${tags_prompt}`);
+      console.log("tags are ",tags)
+    //  Patch the generated text to the endpoint
+      const emailId =localStorage.getItem('userEmail'); // Replace with the actual email ID
+      const patchEndpoint = `https://content-create-n6r1.onrender.com/my-collection/${emailId}`;
+  
+      const patchData = {
+        prompts: [
+          {
+            tags: [],
+            heading: '',
+            bodyText: data,
+            industry: '',
+          },
+        ],
+      };
+  
+      const patchResponse = await fetch(patchEndpoint, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(patchData),
+      });
+      
+      if (patchResponse.ok) {
+        setResult(data);
+        setLoading(false);
+        navigateTo('/result', { state: { data }});
+      } else {
+        throw new Error('Failed to patch the generated text to the endpoint.');
+      }
     } catch (error) {
       console.error(error);
       setLoading(false);
       navigateTo('/result', { state: { prompt }});
     }
-  };
+  }
   return (
 <div>
 {loading &&   <div className="hidden md:flex md:flex-1 md:justify-center md:w-50 md:h-50">
