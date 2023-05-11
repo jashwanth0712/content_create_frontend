@@ -16,7 +16,7 @@ function LeftBar() {
   const fetchData = async () => {
     try {
       // Fetch data for industries, target audiences, and post types
-      const response = await fetch("http://localhost:3000/admin");
+      const response = await fetch("https://content-create-frontend-8hbx-g5f950nmd-jashwanth0712.vercel.app/admin");
       const output = await response.json();
       console.log(output)
       const { Industries, TargetAudiences, PostTypes } = output;

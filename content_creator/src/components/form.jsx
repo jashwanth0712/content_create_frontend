@@ -24,7 +24,7 @@ const Forms = () => {
   useEffect(() => {
     
     // Fetch the admin emails from the endpoint
-    fetch('http://localhost:3000/admin')
+    fetch('https://content-create-frontend-8hbx-g5f950nmd-jashwanth0712.vercel.app/admin')
       .then(response => response.json())
       .then(data => {
         setPostTypeOptions(data.type_of_post);

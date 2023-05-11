@@ -38,7 +38,7 @@ function SelectIndustry() {
   useEffect(() => {
     const fetchDomains = async () => {
       try {
-        const response = await fetch('http://localhost:3000/admin');
+        const response = await fetch('https://content-create-frontend-8hbx-g5f950nmd-jashwanth0712.vercel.app/admin');
         const data = await response.json();
         const industries = data.Industries;
         setDomains(industries);
