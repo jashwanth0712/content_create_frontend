@@ -13,7 +13,7 @@ function Content_manager() {
   const fetchData = async () => {
     try {
       const emailId = localStorage.getItem('userEmail'); // Replace with the actual email ID
-      const response = await fetch(`http://localhost:5000/my-collection/${emailId}`);
+      const response = await fetch(`https://fine-cyan-cockatoo-sari.cyclic.app/my-collection/${emailId}`);
       const outData = await response.json();
       const jsonData = outData.prompts;
       setData(jsonData);

@@ -56,7 +56,7 @@ const Forms = () => {
 
       // Patch the generated text to the endpoint
       const emailId = localStorage.getItem('userEmail'); // Replace with the actual email ID
-      const patchEndpoint = `https://content-create-n6r1.onrender.com/my-collection/${emailId}`;
+      const patchEndpoint = `https://fine-cyan-cockatoo-sari.cyclic.app/my-collection/${emailId}`;
 
       const patchData = {
         prompts: [

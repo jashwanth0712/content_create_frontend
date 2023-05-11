@@ -16,12 +16,14 @@ function LeftBar() {
   const fetchData = async () => {
     try {
       // Fetch data for industries, target audiences, and post types
-      const response = await axios.get("https://https://localhost:3000/admin");
-      const { Industries, TargetAudiences, PostTypes } = response.data;
+      const response = await fetch("http://localhost:3000/admin");
+      const output = await response.json();
+      console.log(output)
+      const { Industries, TargetAudiences, PostTypes } = output;
 
-      setIndustries(Industries);
-      setTargetAudiences(TargetAudiences);
-      setPostTypes(PostTypes);
+      setIndustries(output.Industries);
+      setTargetAudiences(output.target_audience);
+      setPostTypes(output.type_of_post);
     } catch (error) {
       console.log("Failed to fetch data:", error);
     }
@@ -55,10 +57,10 @@ function LeftBar() {
             break;
         }
 
-        // Send PUT request to update the data in the API
-        await axios.put("https://cc-frontend-dzrj.onrender.com/admin", {
-          [selectedOption]: updatedList,
-        });
+        // // Send PUT request to update the data in the API
+        // await axios.put("http://localhost:3000/admin", {
+        //   [selectedOption]: updatedList,
+        // });
 
         // Clear the input field
         e.target.parentNode.firstChild.value = "";
@@ -88,15 +90,14 @@ function LeftBar() {
           break;
       }
 
-      // Send PUT request to update the data in the API
-      await axios.put("https://cc-frontend-dzrj.onrender.com/admin", {
-        [selectedOption]: updatedList,
-      });
+      // // Send PUT request to update the data in the API
+      // await axios.put("http://localhost:3000/admin", {
+      //   [selectedOption]: updatedList,
+      // });
     } catch (error) {
       console.log("Failed to update data:", error);
     }
   };
-
   const renderList = () => {
     switch (selectedOption) {
       case "industry":
@@ -107,10 +108,10 @@ function LeftBar() {
               <button onClick={addItem} className="bg-green-500 hover:bg-green-600 text-white font-bold px-2 py-1 rounded-lg ml-2">+</button>
             </div>
             <ul className="w-full space-y-2 mt-2">
-              {industries.map((industry) => (
-                <li key={industry.name} className="flex justify-between items-center">
-                  <span>{industry.name}</span>
-                  <button onClick={() => deleteItem(industry.name)} className="bg-red-500 hover:bg-red-600 text-white font-bold px-2 py-1 rounded-lg">-</button>
+              {industries.map((industry, index) => (
+                <li key={index} className="flex justify-between items-center">
+                  <span>{industry}</span>
+                  <button onClick={() => deleteItem(industry)} className="bg-red-500 hover:bg-red-600 text-white font-bold px-2 py-1 rounded-lg">-</button>
                 </li>
               ))}
             </ul>
@@ -124,10 +125,10 @@ function LeftBar() {
               <button onClick={addItem} className="bg-green-500 hover:bg-green-600 text-white font-bold px-2 py-1 rounded-lg ml-2">+</button>
             </div>
             <ul className="w-full space-y-2 mt-2">
-              {targetAudiences.map((targetAudience) => (
-                <li key={targetAudience.name} className="flex justify-between items-center">
-                  <span>{targetAudience.name}</span>
-                  <button onClick={() => deleteItem(targetAudience.name)} className="bg-red-500 hover:bg-red-600 text-white font-bold px-2 py-1 rounded-lg">-</button>
+              {targetAudiences.map((targetAudience, index) => (
+                <li key={index} className="flex justify-between items-center">
+                  <span>{targetAudience}</span>
+                  <button onClick={() => deleteItem(targetAudience)} className="bg-red-500 hover:bg-red-600 text-white font-bold px-2 py-1 rounded-lg">-</button>
                 </li>
               ))}
             </ul>
@@ -141,10 +142,10 @@ function LeftBar() {
               <button onClick={addItem} className="bg-green-500 hover:bg-green-600 text-white font-bold px-2 py-1 rounded-lg ml-2">+</button>
             </div>
             <ul className="w-full space-y-2 mt-2">
-              {postTypes.map((postType) => (
-                <li key={postType.name} className="flex justify-between items-center">
-                  <span>{postType.name}</span>
-                  <button onClick={() => deleteItem(postType.name)} className="bg-red-500 hover:bg-red-600 text-white font-bold px-2 py-1 rounded-lg">-</button>
+              {postTypes.map((postType, index) => (
+                <li key={index} className="flex justify-between items-center">
+                  <span>{postType}</span>
+                  <button onClick={() => deleteItem(postType)} className="bg-red-500 hover:bg-red-600 text-white font-bold px-2 py-1 rounded-lg">-</button>
                 </li>
               ))}
             </ul>
@@ -154,7 +155,7 @@ function LeftBar() {
         return null;
     }
   };
-
+  
   return (
     <div className="min-h-[90vh] border-r border-gray-200 items-start justify-start flex flex-col w-full">
       <div className="w-full items-start justify-start flex flex-col px-6 pt-12 pb-6">

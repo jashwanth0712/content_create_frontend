@@ -128,7 +128,7 @@ password : &L3>y(u| */}
                        const user_txt=await user_req.text()
                        const user_data=JSON.parse(user_txt);
                        const remaining_prompts=user_data.remaining
-                        const patchEndpoint = `http://localhost:5000/my-collection/${emailId}`;
+                        const patchEndpoint = `https://fine-cyan-cockatoo-sari.cyclic.app/my-collection/${emailId}`;
                         const patchData = {
                             remaining:remaining_prompts+1000*payment_amount,
                           };

@@ -47,7 +47,7 @@ const Forms = () => {
     try {
            // Patch the generated text to the endpoint
            const emailId = localStorage.getItem('userEmail'); // Replace with the actual email ID
-           const user_req = await fetch(`http://localhost:5000/my-collection/${emailId}`);
+           const user_req = await fetch(`https://fine-cyan-cockatoo-sari.cyclic.app/my-collection/${emailId}`);
            const user_txt=await user_req.text()
            const user_data=JSON.parse(user_txt);
            const remaining_prompts=user_data.remaining
@@ -56,7 +56,7 @@ const Forms = () => {
            console.log("data is ",user_data)
            console.log("remaining is ",user_data.remaining)
            console.log("remainingj is ",user_data['remaining'])
-           const patchEndpoint = `http://localhost:5000/my-collection/${emailId}`;
+           const patchEndpoint = `https://fine-cyan-cockatoo-sari.cyclic.app/my-collection/${emailId}`;
        
            
            if(remaining_prompts<10){
